@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Nice - Bienvenue à Nice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azure-blue: #007FFF;
+            --deep-azure: #0066CC;
+            --light-azure: #5CB3FF;
+            --sky-blue: #87CEEB;
+            --sand: #F4E4C1;
+            --warm-sand: #E8D4A8;
+            --sun-gold: #FFD700;
+            --warm-gold: #FDB813;
+            --white-foam: #F8F9FA;
+            --pebble-gray: #95A5A6;
+            --dark-blue: #003F7F;
+            --soft-shadow: rgba(0, 127, 255, 0.15);
+            --azure-glow: rgba(0, 127, 255, 0.25);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg, var(--sky-blue) 0%, var(--azure-blue) 50%, var(--sand) 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark-blue);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 10%, rgba(255, 215, 0, 0.2) 0%, transparent 40%);
+            animation: sunGlow 8s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes sunGlow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><ellipse cx="100" cy="100" rx="40" ry="20" fill="%2395A5A6" opacity="0.3"/><ellipse cx="300" cy="90" rx="35" ry="18" fill="%2395A5A6" opacity="0.25"/><ellipse cx="500" cy="95" rx="45" ry="22" fill="%2395A5A6" opacity="0.3"/><ellipse cx="700" cy="85" rx="38" ry="19" fill="%2395A5A6" opacity="0.28"/><ellipse cx="900" cy="92" rx="42" ry="21" fill="%2395A5A6" opacity="0.26"/><ellipse cx="1100" cy="88" rx="36" ry="17" fill="%2395A5A6" opacity="0.24"/></svg>') repeat-x bottom;
+            background-size: 600px 120px;
+            opacity: 0.4;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .wave-decoration {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,64 C200,90 400,90 600,64 C800,38 1000,38 1200,64 L1200,120 L0,120 Z" fill="%23F8F9FA" opacity="0.6"/><path d="M0,80 C300,100 500,100 800,80 C1000,60 1100,60 1200,80 L1200,120 L0,120 Z" fill="%23F8F9FA" opacity="0.4"/></svg>') no-repeat bottom;
+            background-size: cover;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .language-selector {
+            position: absolute;
+            top: -15px;
+            right: 0;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: white;
+            border: 2px solid var(--azure-blue);
+            color: var(--azure-blue);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--azure-glow);
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--azure-blue), var(--deep-azure));
+            color: white;
+            border-color: var(--deep-azure);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideDown 0.6s ease-out 0.2s both;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px var(--soft-shadow);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--azure-blue), var(--deep-azure));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .sun-icon {
+            display: inline-block;
+            font-size: 2rem;
+            animation: rotate 20s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--azure-blue);
+            font-weight: 500;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 8px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--soft-shadow);
+            animation: slideUp 0.6s ease-out 0.4s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            background: transparent;
+            color: var(--dark-blue);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--azure-blue), var(--deep-azure));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .tab-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            color: white;
+            box-shadow: 0 6px 20px var(--azure-glow);
+        }
+
+        .tab-button.active::before {
+            opacity: 1;
+        }
+
+        .tab-content {
+            display: none;
+            animation: contentFade 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes contentFade {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px var(--soft-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 127, 255, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 70px var(--azure-glow);
+        }
+
+        .wifi-section {
+            text-align: center;
+        }
+
+        .wifi-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px var(--azure-glow));
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        .wifi-info {
+            margin: 30px 0;
+        }
+
+        .wifi-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--azure-blue);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .wifi-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+            font-weight: 600;
+            margin-bottom: 10px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(92, 179, 255, 0.1), rgba(0, 127, 255, 0.05));
+            border-radius: 12px;
+            border-left: 4px solid var(--azure-blue);
+            position: relative;
+        }
+
+        .copy-button {
+            background: linear-gradient(135deg, var(--azure-blue), var(--deep-azure));
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px var(--soft-shadow);
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .copy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--azure-glow);
+        }
+
+        .copy-button:active {
+            transform: translateY(0);
+        }
+
+        .copy-feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: var(--azure-blue);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 16px;
+            font-weight: 600;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-size: 1.1rem;
+        }
+
+        .copy-feedback.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .menu-grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .menu-item {
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(244, 228, 193, 0.2));
+            padding: 25px;
+            border-radius: 16px;
+            border-left: 4px solid var(--azure-blue);
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .menu-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px var(--soft-shadow);
+            border-left-width: 6px;
+        }
+
+        .menu-item.selected {
+            border-left: 6px solid var(--sun-gold);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(244, 228, 193, 0.25));
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .menu-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--azure-blue);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .menu-description {
+            color: var(--dark-blue);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .menu-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--sun-gold);
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--azure-blue);
+            background: white;
+            color: var(--azure-blue);
+            border-radius: 50%;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: var(--azure-blue);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px var(--azure-glow);
+        }
+
+        .quantity-display {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .breakfast-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .breakfast-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--azure-blue), var(--deep-azure));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .breakfast-header p {
+            color: var(--azure-blue);
+            font-size: 1.1rem;
+        }
+
+        .order-summary {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px var(--soft-shadow);
+            margin-top: 30px;
+            display: none;
+            border: 1px solid rgba(0, 127, 255, 0.1);
+        }
+
+        .order-summary.visible {
+            display: block;
+            animation: contentFade 0.5s ease-out;
+        }
+
+        .order-summary h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--azure-blue), var(--deep-azure));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .cart-items {
+            margin-bottom: 25px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(244, 228, 193, 0.15));
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--azure-blue);
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 5px;
+        }
+
+        .cart-item-qty {
+            font-size: 0.9rem;
+            color: var(--azure-blue);
+        }
+
+        .cart-item-price {
+            font-weight: 700;
+            color: var(--sun-gold);
+            font-size: 1.2rem;
+        }
+
+        .total-section {
+            border-top: 2px solid rgba(0, 127, 255, 0.2);
+            padding-top: 20px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+
+        .total-amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--sun-gold);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .datetime-section {
+            margin: 25px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid rgba(0, 127, 255, 0.2);
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--azure-blue);
+            box-shadow: 0 0 0 3px var(--soft-shadow);
+        }
+
+        .payment-section {
+            margin-top: 25px;
+        }
+
+        .payment-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .payment-button {
+            padding: 16px 24px;
+            border: none;
+            background: linear-gradient(135deg, var(--azure-blue), var(--deep-azure));
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            box-shadow: 0 6px 20px var(--soft-shadow);
+        }
+
+        .payment-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--azure-glow);
+        }
+
+        .payment-button.paypal {
+            background: linear-gradient(135deg, #0070ba, #003087);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--azure-blue);
+        }
+
+        .empty-cart-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--sun-gold), var(--warm-gold));
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            animation: pop 0.3s ease-out;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .customer-info-section {
+            margin: 25px 0;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            .tabs {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .wifi-value {
+                font-size: 1.4rem;
+            }
+
+            .payment-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .language-selector {
+                position: relative;
+                top: 0;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wave-decoration"></div>
+    
+    <div class="container">
+        <div class="language-selector">
+            <button class="lang-btn active" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷 FR</button>
+            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">🇬🇧 EN</button>
+        </div>
+
+        <div class="header">
+            <h1 data-translate="welcome">Bienvenue à Nice<span class="sun-icon">☀️</span></h1>
+            <p data-translate="subtitle">Votre guide pour un séjour inoubliable sur la Côte d'Azur</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" data-tab="wifi">
+                <span data-translate="tab_wifi">WiFi</span>
+            </button>
+            <button class="tab-button" data-tab="breakfast">
+                <span data-translate="tab_breakfast">Petit-déjeuner</span>
+            </button>
+        </div>
+
+        <!-- WiFi Tab -->
+        <div class="tab-content active" id="wifi">
+            <div class="card">
+                <div class="wifi-section">
+                    <div class="wifi-icon">📶</div>
+                    
+                    <div class="wifi-info">
+                        <div class="wifi-label" data-translate="network_name">Nom du réseau</div>
+                        <div class="wifi-value" id="wifi-name">NiceCoastal_Guest</div>
+                        <button class="copy-button" onclick="copyToClipboard('wifi-name')">
+                            <span data-translate="copy_name">Copier le nom</span>
+                        </button>
+                    </div>
+
+                    <div class="wifi-info">
+                        <div class="wifi-label" data-translate="password">Mot de passe</div>
+                        <div class="wifi-value" id="wifi-password">CotedAzur2024!</div>
+                        <button class="copy-button" onclick="copyToClipboard('wifi-password')">
+                            <span data-translate="copy_password">Copier le mot de passe</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breakfast Tab -->
+        <div class="tab-content" id="breakfast">
+            <div class="card">
+                <div class="breakfast-header">
+                    <h2 data-translate="breakfast_title">Petit-déjeuner</h2>
+                    <p data-translate="breakfast_subtitle">Sélectionnez vos menus et choisissez votre horaire</p>
+                </div>
+
+                <div class="menu-grid" id="menuGrid">
+                    <!-- Menu items will be dynamically generated -->
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary" id="orderSummary">
+                <h3>📋 <span data-translate="your_order">Votre commande</span></h3>
+                
+                <div id="cartContent">
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <p data-translate="empty_cart">Votre panier est vide</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="copy-feedback" id="copyFeedback">
+        <span data-translate="copied">Copié !</span>
+    </div>
+
+    <script>
+        // Configuration
+        const WHATSAPP_NUMBER = '+33637728856'; // REMPLACEZ PAR VOTRE NUMÉRO WhatsApp (format international)
+        const PAYPAL_EMAIL = 'votre-email@paypal.com'; // REMPLACEZ PAR VOTRE EMAIL PAYPAL
+
+        // Current language
+        let currentLanguage = 'fr';
+
+        // Translations
+        const translations = {
+            fr: {
+                welcome: "Bienvenue à Nice☀️",
+                subtitle: "Votre guide pour un séjour inoubliable sur la Côte d'Azur",
+                tab_wifi: "WiFi",
+                tab_breakfast: "Petit-déjeuner",
+                network_name: "Nom du réseau",
+                password: "Mot de passe",
+                copy_name: "Copier le nom",
+                copy_password: "Copier le mot de passe",
+                copied: "Copié !",
+                breakfast_title: "Petit-déjeuner",
+                breakfast_subtitle: "Sélectionnez vos menus et choisissez votre horaire",
+                breakfast_order: "Commande de petit-déjeuner",
+                your_order: "Votre commande",
+                empty_cart: "Votre panier est vide",
+                menu_continental: "Continental",
+                menu_continental_desc: "Croissants frais, pain, beurre, confiture, jus d'orange, café ou thé",
+                menu_french: "Français",
+                menu_french_desc: "Baguette fraîche, croissants, pain au chocolat, œufs, jambon, fromage, fruits frais, jus, café ou thé",
+                menu_gourmet: "Gourmand",
+                menu_gourmet_desc: "Viennoiseries variées, œufs brouillés, bacon, saumon fumé, fromages, fruits frais, yaourt, granola, jus frais, café ou thé",
+                menu_vegetarian: "Végétarien",
+                menu_vegetarian_desc: "Pain complet, muesli, fruits frais de saison, yaourt végétal, houmous, avocat, smoothie maison, thé ou café",
+                quantity: "Quantité",
+                your_name: "Votre nom",
+                name_placeholder: "Nom et prénom",
+                delivery_date: "Date de livraison",
+                delivery_time: "Heure de livraison",
+                select_time: "Sélectionnez une heure",
+                total: "Total",
+                pay_on_site: "💵 Payer sur place",
+                pay_paypal: "💳 PayPal",
+                order_sent: "✅ Votre commande a été envoyée avec succès!\n\nVous recevrez votre petit-déjeuner à l'heure demandée.",
+                enter_name: "Veuillez entrer votre nom",
+                select_date: "Veuillez sélectionner une date de livraison",
+                select_hour: "Veuillez sélectionner une heure de livraison"
+            },
+            en: {
+                welcome: "Welcome to Nice☀️",
+                subtitle: "Your guide for an unforgettable stay on the French Riviera",
+                tab_wifi: "WiFi",
+                tab_breakfast: "Breakfast",
+                network_name: "Network name",
+                password: "Password",
+                copy_name: "Copy name",
+                copy_password: "Copy password",
+                copied: "Copied!",
+                breakfast_title: "Breakfast",
+                breakfast_subtitle: "Select your menus and choose your time slot",
+                your_order: "Your order",
+                empty_cart: "Your cart is empty",
+                menu_continental: "Continental",
+                menu_continental_desc: "Fresh croissants, bread, butter, jam, orange juice, coffee or tea",
+                menu_french: "French",
+                menu_french_desc: "Fresh baguette, croissants, pain au chocolat, eggs, ham, cheese, fresh fruit, juice, coffee or tea",
+                menu_gourmet: "Gourmet",
+                menu_gourmet_desc: "Assorted pastries, scrambled eggs, bacon, smoked salmon, cheeses, fresh fruit, yogurt, granola, fresh juice, coffee or tea",
+                menu_vegetarian: "Vegetarian",
+                menu_vegetarian_desc: "Wholegrain bread, muesli, fresh seasonal fruit, plant-based yogurt, hummus, avocado, homemade smoothie, tea or coffee",
+                quantity: "Quantity",
+                your_name: "Your name",
+                name_placeholder: "First and last name",
+                delivery_date: "Delivery date",
+                delivery_time: "Delivery time",
+                select_time: "Select a time",
+                total: "Total",
+                pay_on_site: "💵 Pay on site",
+                pay_paypal: "💳 PayPal",
+                order_sent: "✅ Your order has been sent successfully!\n\nYou will receive your breakfast at the requested time.",
+                enter_name: "Please enter your name",
+                select_date: "Please select a delivery date",
+                select_hour: "Please select a delivery time"
+            }
+        };
+
+        // Menu data
+        const menuData = [
+            { id: 1, nameKey: 'menu_continental', descKey: 'menu_continental_desc', price: 12 },
+            { id: 2, nameKey: 'menu_french', descKey: 'menu_french_desc', price: 18 },
+            { id: 3, nameKey: 'menu_gourmet', descKey: 'menu_gourmet_desc', price: 25 },
+            { id: 4, nameKey: 'menu_vegetarian', descKey: 'menu_vegetarian_desc', price: 16 }
+        ];
+
+        // Cart state
+        let cart = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMenuItems();
+            updateLanguage();
+        });
+
+        // Switch language
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            updateLanguage();
+            renderMenuItems();
+            updateOrderSummary();
+        }
+
+        // Update all translatable elements
+        function updateLanguage() {
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage][key]) {
+                    if (element.tagName === 'INPUT' && element.placeholder) {
+                        element.placeholder = translations[currentLanguage][key];
+                    } else {
+                        element.textContent = translations[currentLanguage][key];
+                    }
+                }
+            });
+        }
+
+        // Tab switching
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.dataset.tab;
+                
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                button.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Render menu items
+        function renderMenuItems() {
+            const menuGrid = document.getElementById('menuGrid');
+            menuGrid.innerHTML = '';
+
+            menuData.forEach(item => {
+                const cartItem = cart.find(c => c.id === item.id);
+                const quantity = cartItem ? cartItem.quantity : 0;
+                const name = translations[currentLanguage][item.nameKey];
+                const desc = translations[currentLanguage][item.descKey];
+
+                const menuItemHTML = `
+                    <div class="menu-item ${quantity > 0 ? 'selected' : ''}" id="menu-${item.id}">
+                        ${quantity > 0 ? `<div class="badge">${quantity}</div>` : ''}
+                        <div class="menu-title">${name}</div>
+                        <div class="menu-description">${desc}</div>
+                        <div class="menu-price">${item.price} €</div>
+                        <div class="quantity-control">
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">−</button>
+                            <div class="quantity-display" id="qty-${item.id}">${quantity}</div>
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+                menuGrid.innerHTML += menuItemHTML;
+            });
+        }
+
+        // Update quantity
+        function updateQuantity(menuId, change) {
+            const existingItem = cart.find(item => item.id === menuId);
+            const menuItem = menuData.find(item => item.id === menuId);
+
+            if (existingItem) {
+                existingItem.quantity += change;
+                if (existingItem.quantity <= 0) {
+                    cart = cart.filter(item => item.id !== menuId);
+                }
+            } else if (change > 0) {
+                cart.push({
+                    id: menuId,
+                    nameKey: menuItem.nameKey,
+                    price: menuItem.price,
+                    quantity: 1
+                });
+            }
+
+            renderMenuItems();
+            updateOrderSummary();
+        }
+
+        // Update order summary
+        function updateOrderSummary() {
+            const orderSummary = document.getElementById('orderSummary');
+            const cartContent = document.getElementById('cartContent');
+
+            if (cart.length === 0) {
+                orderSummary.classList.remove('visible');
+                cartContent.innerHTML = `
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <p data-translate="empty_cart">${translations[currentLanguage].empty_cart}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            orderSummary.classList.add('visible');
+
+            let cartHTML = '<div class="cart-items">';
+            let total = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                const name = translations[currentLanguage][item.nameKey];
+                cartHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${name}</div>
+                            <div class="cart-item-qty">${translations[currentLanguage].quantity}: ${item.quantity}</div>
+                        </div>
+                        <div class="cart-item-price">${itemTotal} €</div>
+                    </div>
+                `;
+            });
+
+            cartHTML += '</div>';
+
+            cartHTML += `
+                <div class="total-section">
+                    <div class="total-label">${translations[currentLanguage].total}</div>
+                    <div class="total-amount">${total} €</div>
+                </div>
+
+                <div class="customer-info-section">
+                    <div class="form-group">
+                        <label class="form-label" for="customerName">${translations[currentLanguage].your_name}</label>
+                        <input type="text" id="customerName" class="form-input" placeholder="${translations[currentLanguage].name_placeholder}" required>
+                    </div>
+                </div>
+
+                <div class="datetime-section">
+                    <div class="form-group">
+                        <label class="form-label" for="deliveryDate">${translations[currentLanguage].delivery_date}</label>
+                        <input type="date" id="deliveryDate" class="form-input" min="${getTodayDate()}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="deliveryTime">${translations[currentLanguage].delivery_time}</label>
+                        <select id="deliveryTime" class="form-select" required>
+                            <option value="">${translations[currentLanguage].select_time}</option>
+                            <option value="08:00">08:00</option>
+                            <option value="08:30">08:30</option>
+                            <option value="09:00">09:00</option>
+                            <option value="09:30">09:30</option>
+                            <option value="10:00">10:00</option>
+                            <option value="10:30">10:30</option>
+                            <option value="11:00">11:00</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="payment-section">
+                    <div class="payment-buttons">
+                        <button class="payment-button" onclick="processOrder('cash')">
+                            ${translations[currentLanguage].pay_on_site}
+                        </button>
+                        <button class="payment-button paypal" onclick="processOrder('paypal')">
+                            ${translations[currentLanguage].pay_paypal}
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            cartContent.innerHTML = cartHTML;
+        }
+
+        // Get today's date in YYYY-MM-DD format
+        function getTodayDate() {
+            const today = new Date();
+            return today.toISOString().split('T')[0];
+        }
+
+        // Process order
+        function processOrder(paymentMethod) {
+            const customerName = document.getElementById('customerName').value.trim();
+            const deliveryDate = document.getElementById('deliveryDate').value;
+            const deliveryTime = document.getElementById('deliveryTime').value;
+
+            if (!customerName) {
+                alert(translations[currentLanguage].enter_name);
+                return;
+            }
+
+            if (!deliveryDate) {
+                alert(translations[currentLanguage].select_date);
+                return;
+            }
+
+            if (!deliveryTime) {
+                alert(translations[currentLanguage].select_hour);
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            // Create order message
+            let message = `🏖️ *NOUVELLE COMMANDE NICE*\n\n`;
+            message += `👤 *Client:* ${customerName}\n\n`;
+            message += `📅 *Date:* ${formatDate(deliveryDate)}\n`;
+            message += `⏰ *Heure:* ${deliveryTime}\n\n`;
+            message += `🍽️ *Commande:*\n`;
+            
+            cart.forEach(item => {
+                const name = translations[currentLanguage][item.nameKey];
+                message += `• ${name} x${item.quantity} - ${item.price * item.quantity}€\n`;
+            });
+
+            message += `\n💰 *Total: ${total}€*\n\n`;
+            message += `💳 *Paiement:* ${paymentMethod === 'cash' ? '💵 Sur place / On site' : '✅ PayPal (en attente / pending)'}\n\n`;
+
+            if (paymentMethod === 'paypal') {
+                const paypalUrl = `https://www.paypal.com/paypalme/${PAYPAL_EMAIL.split('@')[0]}/${total}`;
+                message += `⚠️ Client redirigé vers PayPal pour ${total}€`;
+                
+                sendWhatsAppMessage(message);
+                
+                setTimeout(() => {
+                    window.open(paypalUrl, '_blank');
+                }, 1000);
+            } else {
+                sendWhatsAppMessage(message);
+            }
+
+            setTimeout(() => {
+                cart = [];
+                renderMenuItems();
+                updateOrderSummary();
+                alert(translations[currentLanguage].order_sent);
+            }, 2000);
+        }
+
+        // Send WhatsApp message
+        function sendWhatsAppMessage(message) {
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER.replace(/\+/g, '')}?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString(currentLanguage === 'fr' ? 'fr-FR' : 'en-GB', options);
+        }
+
+        // Copy to clipboard function
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showCopyFeedback();
+            }).catch(err => {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showCopyFeedback();
+            });
+        }
+
+        function showCopyFeedback() {
+            const feedback = document.getElementById('copyFeedback');
+            feedback.classList.add('show');
+            setTimeout(() => {
+                feedback.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
