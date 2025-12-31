@@ -616,34 +616,136 @@
             margin-top: 25px;
         }
 
-        .payment-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
+        .order-button {
+            width: 100%;
+            padding: 18px 32px;
+            border: none;
+            background: linear-gradient(135deg, var(--sun-gold), var(--warm-gold));
+            color: white;
+            border-radius: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .payment-button {
-            padding: 16px 24px;
-            border: none;
-            background: linear-gradient(135deg, var(--azure-blue), var(--deep-azure));
-            color: white;
-            border-radius: 12px;
+        .order-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Modal styles */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .payment-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease-out;
+            position: relative;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--azure-blue);
+            margin-bottom: 10px;
+        }
+
+        .modal-header p {
+            color: var(--dark-blue);
+            font-size: 1rem;
+        }
+
+        .payment-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .payment-option-btn {
+            padding: 20px 30px;
+            border: 3px solid var(--azure-blue);
+            background: white;
+            color: var(--azure-blue);
+            border-radius: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            box-shadow: 0 6px 20px var(--soft-shadow);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .payment-button:hover {
-            transform: translateY(-2px);
+        .payment-option-btn:hover {
+            background: var(--azure-blue);
+            color: white;
+            transform: scale(1.02);
             box-shadow: 0 8px 25px var(--azure-glow);
         }
 
-        .payment-button.paypal {
-            background: linear-gradient(135deg, #0070ba, #003087);
+        .payment-option-btn.paypal-btn {
+            border-color: #0070ba;
+            color: #0070ba;
+        }
+
+        .payment-option-btn.paypal-btn:hover {
+            background: #0070ba;
+            color: white;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            font-size: 2rem;
+            color: var(--pebble-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            color: var(--azure-blue);
+            transform: rotate(90deg);
         }
 
         .empty-cart {
@@ -791,14 +893,32 @@
         </div>
     </div>
 
+    <!-- Payment Modal -->
+    <div class="payment-modal" id="paymentModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closePaymentModal()">×</button>
+            <div class="modal-header">
+                <h3 data-translate="choose_payment">Choisissez votre mode de paiement</h3>
+                <p data-translate="payment_subtitle">Comment souhaitez-vous régler ?</p>
+            </div>
+            <div class="payment-options">
+                <button class="payment-option-btn" onclick="processOrder('cash')">
+                    💵 <span data-translate="pay_cash">Espèces sur place</span>
+                </button>
+                <button class="payment-option-btn paypal-btn" onclick="processOrder('paypal')">
+                    💳 <span data-translate="pay_qr">PayPal (Scanner QR code)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="copy-feedback" id="copyFeedback">
         <span data-translate="copied">Copié !</span>
     </div>
 
     <script>
         // Configuration
-        const WHATSAPP_NUMBER = '+33637728856'; // REMPLACEZ PAR VOTRE NUMÉRO WhatsApp (format international)
-        const PAYPAL_EMAIL = 'votre-email@paypal.com'; // REMPLACEZ PAR VOTRE EMAIL PAYPAL
+        const WHATSAPP_NUMBER = '+33637728856'; // Numéro WhatsApp d'Alexy Daddio
 
         // Current language
         let currentLanguage = 'fr';
@@ -817,7 +937,6 @@
                 copied: "Copié !",
                 breakfast_title: "Petit-déjeuner",
                 breakfast_subtitle: "Sélectionnez vos menus et choisissez votre horaire",
-                breakfast_order: "Commande de petit-déjeuner",
                 your_order: "Votre commande",
                 empty_cart: "Votre panier est vide",
                 menu_continental: "Continental",
@@ -835,9 +954,13 @@
                 delivery_time: "Heure de livraison",
                 select_time: "Sélectionnez une heure",
                 total: "Total",
-                pay_on_site: "💵 Payer sur place",
-                pay_paypal: "💳 PayPal",
-                order_sent: "✅ Votre commande a été envoyée avec succès!\n\nVous recevrez votre petit-déjeuner à l'heure demandée.",
+                order_now: "Commander maintenant",
+                choose_payment: "Choisissez votre mode de paiement",
+                payment_subtitle: "Comment souhaitez-vous régler ?",
+                pay_cash: "Espèces sur place",
+                pay_qr: "PayPal (Scanner QR code)",
+                order_sent_cash: "✅ Votre commande a été envoyée !\n\nVous paierez en espèces lors de la livraison.\n\nÀ très bientôt ! 🌊☀️",
+                order_sent_paypal: "✅ Votre commande a été envoyée !\n\nVeuillez scanner le QR code PayPal à côté pour payer.\n\nÀ très bientôt ! 🌊☀️",
                 enter_name: "Veuillez entrer votre nom",
                 select_date: "Veuillez sélectionner une date de livraison",
                 select_hour: "Veuillez sélectionner une heure de livraison"
@@ -871,9 +994,13 @@
                 delivery_time: "Delivery time",
                 select_time: "Select a time",
                 total: "Total",
-                pay_on_site: "💵 Pay on site",
-                pay_paypal: "💳 PayPal",
-                order_sent: "✅ Your order has been sent successfully!\n\nYou will receive your breakfast at the requested time.",
+                order_now: "Order now",
+                choose_payment: "Choose your payment method",
+                payment_subtitle: "How would you like to pay?",
+                pay_cash: "Cash on site",
+                pay_qr: "PayPal (Scan QR code)",
+                order_sent_cash: "✅ Your order has been sent!\n\nYou will pay in cash upon delivery.\n\nSee you soon! 🌊☀️",
+                order_sent_paypal: "✅ Your order has been sent!\n\nPlease scan the PayPal QR code nearby to pay.\n\nSee you soon! 🌊☀️",
                 enter_name: "Please enter your name",
                 select_date: "Please select a delivery date",
                 select_hour: "Please select a delivery time"
@@ -1067,28 +1194,17 @@
                 </div>
 
                 <div class="payment-section">
-                    <div class="payment-buttons">
-                        <button class="payment-button" onclick="processOrder('cash')">
-                            ${translations[currentLanguage].pay_on_site}
-                        </button>
-                        <button class="payment-button paypal" onclick="processOrder('paypal')">
-                            ${translations[currentLanguage].pay_paypal}
-                        </button>
-                    </div>
+                    <button class="order-button" onclick="showPaymentModal()">
+                        🛎️ <span data-translate="order_now">Commander maintenant</span>
+                    </button>
                 </div>
             `;
 
             cartContent.innerHTML = cartHTML;
         }
 
-        // Get today's date in YYYY-MM-DD format
-        function getTodayDate() {
-            const today = new Date();
-            return today.toISOString().split('T')[0];
-        }
-
-        // Process order
-        function processOrder(paymentMethod) {
+        // Show payment modal
+        function showPaymentModal() {
             const customerName = document.getElementById('customerName').value.trim();
             const deliveryDate = document.getElementById('deliveryDate').value;
             const deliveryTime = document.getElementById('deliveryTime').value;
@@ -1108,14 +1224,46 @@
                 return;
             }
 
+            // Show modal
+            document.getElementById('paymentModal').classList.add('show');
+        }
+
+        // Close modal
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('paymentModal');
+            if (event.target === modal) {
+                closePaymentModal();
+            }
+        });
+
+        // Get today's date in YYYY-MM-DD format
+        function getTodayDate() {
+            const today = new Date();
+            return today.toISOString().split('T')[0];
+        }
+
+        // Process order
+        function processOrder(paymentMethod) {
+            // Close modal
+            closePaymentModal();
+
+            const customerName = document.getElementById('customerName').value.trim();
+            const deliveryDate = document.getElementById('deliveryDate').value;
+            const deliveryTime = document.getElementById('deliveryTime').value;
+
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-            // Create order message
-            let message = `🏖️ *NOUVELLE COMMANDE NICE*\n\n`;
+            // Create order message for WhatsApp
+            let message = `🏖️ *NOUVELLE COMMANDE NICE / NEW ORDER*\n\n`;
             message += `👤 *Client:* ${customerName}\n\n`;
             message += `📅 *Date:* ${formatDate(deliveryDate)}\n`;
-            message += `⏰ *Heure:* ${deliveryTime}\n\n`;
-            message += `🍽️ *Commande:*\n`;
+            message += `⏰ *Heure / Time:* ${deliveryTime}\n\n`;
+            message += `🍽️ *Commande / Order:*\n`;
             
             cart.forEach(item => {
                 const name = translations[currentLanguage][item.nameKey];
@@ -1123,27 +1271,28 @@
             });
 
             message += `\n💰 *Total: ${total}€*\n\n`;
-            message += `💳 *Paiement:* ${paymentMethod === 'cash' ? '💵 Sur place / On site' : '✅ PayPal (en attente / pending)'}\n\n`;
-
-            if (paymentMethod === 'paypal') {
-                const paypalUrl = `https://www.paypal.com/paypalme/${PAYPAL_EMAIL.split('@')[0]}/${total}`;
-                message += `⚠️ Client redirigé vers PayPal pour ${total}€`;
-                
-                sendWhatsAppMessage(message);
-                
-                setTimeout(() => {
-                    window.open(paypalUrl, '_blank');
-                }, 1000);
+            
+            if (paymentMethod === 'cash') {
+                message += `💵 *Paiement: ESPÈCES SUR PLACE / CASH ON SITE*`;
             } else {
-                sendWhatsAppMessage(message);
+                message += `💳 *Paiement: PayPal - CLIENT VA SCANNER LE QR CODE*\n`;
+                message += `⚠️ Vérifier réception paiement PayPal avant livraison`;
             }
+
+            // Send WhatsApp message
+            sendWhatsAppMessage(message);
+
+            // Show confirmation message
+            const confirmMessage = paymentMethod === 'cash' 
+                ? translations[currentLanguage].order_sent_cash 
+                : translations[currentLanguage].order_sent_paypal;
 
             setTimeout(() => {
                 cart = [];
                 renderMenuItems();
                 updateOrderSummary();
-                alert(translations[currentLanguage].order_sent);
-            }, 2000);
+                alert(confirmMessage);
+            }, 1000);
         }
 
         // Send WhatsApp message
