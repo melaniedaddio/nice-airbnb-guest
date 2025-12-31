@@ -8,9 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR"></script>
-    
     <style>
         * {
             margin: 0;
@@ -616,136 +613,34 @@
             margin-top: 25px;
         }
 
-        .order-button {
-            width: 100%;
-            padding: 18px 32px;
-            border: none;
-            background: linear-gradient(135deg, var(--sun-gold), var(--warm-gold));
-            color: white;
-            border-radius: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.2rem;
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .order-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
-        }
-
-        /* Modal styles */
-        .payment-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .payment-modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 24px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.4s ease-out;
-            position: relative;
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .modal-header h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            color: var(--azure-blue);
-            margin-bottom: 10px;
-        }
-
-        .modal-header p {
-            color: var(--dark-blue);
-            font-size: 1rem;
-        }
-
-        .payment-options {
+        .payment-buttons {
             display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
 
-        .payment-option-btn {
-            padding: 20px 30px;
-            border: 3px solid var(--azure-blue);
-            background: white;
-            color: var(--azure-blue);
-            border-radius: 16px;
+        .payment-button {
+            padding: 16px 24px;
+            border: none;
+            background: linear-gradient(135deg, var(--azure-blue), var(--deep-azure));
+            color: white;
+            border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            font-size: 1rem;
+            box-shadow: 0 6px 20px var(--soft-shadow);
         }
 
-        .payment-option-btn:hover {
-            background: var(--azure-blue);
-            color: white;
-            transform: scale(1.02);
+        .payment-button:hover {
+            transform: translateY(-2px);
             box-shadow: 0 8px 25px var(--azure-glow);
         }
 
-        .payment-option-btn.paypal-btn {
-            border-color: #0070ba;
-            color: #0070ba;
-        }
-
-        .payment-option-btn.paypal-btn:hover {
-            background: #0070ba;
-            color: white;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: transparent;
-            border: none;
-            font-size: 2rem;
-            color: var(--pebble-gray);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .close-modal:hover {
-            color: var(--azure-blue);
-            transform: rotate(90deg);
+        .payment-button.paypal {
+            background: linear-gradient(135deg, #0070ba, #003087);
         }
 
         .empty-cart {
@@ -785,6 +680,120 @@
 
         .customer-info-section {
             margin: 25px 0;
+        }
+
+        /* Garage styles */
+        .garage-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .garage-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--azure-blue), var(--deep-azure));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .garage-header p {
+            color: var(--azure-blue);
+            font-size: 1.1rem;
+        }
+
+        .garage-pricing {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .pricing-info {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .pricing-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(244, 228, 193, 0.15));
+            border-radius: 16px;
+            border-left: 4px solid var(--azure-blue);
+        }
+
+        .pricing-icon {
+            font-size: 2.5rem;
+        }
+
+        .pricing-label {
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 5px;
+        }
+
+        .pricing-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--sun-gold);
+        }
+
+        .garage-booking {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 30px;
+            border-radius: 16px;
+            border: 2px solid rgba(0, 127, 255, 0.1);
+        }
+
+        .nights-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .nights-input {
+            width: 80px;
+            padding: 14px;
+            border: 2px solid rgba(0, 127, 255, 0.2);
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+            background: white;
+            color: var(--dark-blue);
+        }
+
+        .nights-input:focus {
+            outline: none;
+            border-color: var(--azure-blue);
+            box-shadow: 0 0 0 3px var(--soft-shadow);
+        }
+
+        .garage-total {
+            margin: 25px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 127, 255, 0.05));
+            border-radius: 16px;
+            border: 2px solid var(--sun-gold);
+        }
+
+        .total-breakdown {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .breakdown-line {
+            font-size: 1.2rem;
+            color: var(--dark-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
         }
 
         @media (max-width: 600px) {
@@ -839,6 +848,9 @@
             <button class="tab-button" data-tab="breakfast">
                 <span data-translate="tab_breakfast">Petit-déjeuner</span>
             </button>
+            <button class="tab-button" data-tab="garage">
+                <span data-translate="tab_garage">Garage</span>
+            </button>
         </div>
 
         <!-- WiFi Tab -->
@@ -872,6 +884,9 @@
                 <div class="breakfast-header">
                     <h2 data-translate="breakfast_title">Petit-déjeuner</h2>
                     <p data-translate="breakfast_subtitle">Sélectionnez vos menus et choisissez votre horaire</p>
+                    <p style="font-size: 0.9rem; color: var(--pebble-gray); margin-top: 8px; font-style: italic;">
+                        <span data-translate="min_next_day">📅 Commande minimum pour le lendemain</span>
+                    </p>
                 </div>
 
                 <div class="menu-grid" id="menuGrid">
@@ -891,23 +906,68 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Payment Modal -->
-    <div class="payment-modal" id="paymentModal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closePaymentModal()">×</button>
-            <div class="modal-header">
-                <h3 data-translate="choose_payment">Choisissez votre mode de paiement</h3>
-                <p data-translate="payment_subtitle">Comment souhaitez-vous régler ?</p>
-            </div>
-            <div class="payment-options">
-                <button class="payment-option-btn" onclick="processOrder('cash')">
-                    💵 <span data-translate="pay_cash">Espèces sur place</span>
-                </button>
-                <button class="payment-option-btn paypal-btn" onclick="processOrder('paypal')">
-                    💳 <span data-translate="pay_qr">PayPal (Scanner QR code)</span>
-                </button>
+        <!-- Garage Tab -->
+        <div class="tab-content" id="garage">
+            <div class="card">
+                <div class="garage-header">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🚗</div>
+                    <h2 data-translate="garage_title">Location de Garage</h2>
+                    <p data-translate="garage_subtitle">Stationnement sécurisé pour votre véhicule</p>
+                </div>
+
+                <div class="garage-pricing">
+                    <div class="pricing-info">
+                        <div class="pricing-item">
+                            <span class="pricing-icon">🌙</span>
+                            <div>
+                                <div class="pricing-label" data-translate="pricing_short">Courte durée (1-2 nuits)</div>
+                                <div class="pricing-value">15 € / <span data-translate="night">nuit</span></div>
+                            </div>
+                        </div>
+                        <div class="pricing-item">
+                            <span class="pricing-icon">🌟</span>
+                            <div>
+                                <div class="pricing-label" data-translate="pricing_long">Longue durée (3+ nuits)</div>
+                                <div class="pricing-value">10 € / <span data-translate="night">nuit</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="garage-booking">
+                        <div class="form-group">
+                            <label class="form-label" for="garageName" data-translate="your_name">Votre nom</label>
+                            <input type="text" id="garageName" class="form-input" data-translate-placeholder="name_placeholder" placeholder="Nom et prénom" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="garageNights" data-translate="number_nights">Nombre de nuits</label>
+                            <div class="nights-selector">
+                                <button class="quantity-btn" onclick="updateGarageNights(-1)">−</button>
+                                <input type="number" id="garageNights" class="nights-input" value="1" min="1" max="30" onchange="calculateGaragePrice()">
+                                <button class="quantity-btn" onclick="updateGarageNights(1)">+</button>
+                            </div>
+                        </div>
+
+                        <div class="garage-total">
+                            <div class="total-breakdown">
+                                <div class="breakdown-line">
+                                    <span id="nightsText">1 <span data-translate="night">nuit</span></span>
+                                    <span>×</span>
+                                    <span id="pricePerNight">15 €</span>
+                                </div>
+                            </div>
+                            <div class="total-section" style="border-top: 2px solid rgba(0, 127, 255, 0.2); padding-top: 15px; margin-top: 15px;">
+                                <div class="total-label" data-translate="total">Total</div>
+                                <div class="total-amount" id="garageTotal">15 €</div>
+                            </div>
+                        </div>
+
+                        <button class="payment-button paypal" style="width: 100%; margin-top: 20px;" onclick="processGaragePayment()">
+                            💳 <span data-translate="pay_paypal">PayPal</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -917,8 +977,9 @@
     </div>
 
     <script>
-        // Configuration
-        const WHATSAPP_NUMBER = '+33637728856'; // Numéro WhatsApp d'Alexy Daddio
+        // ⚙️ CONFIGURATION - DÉJÀ CONFIGURÉ ✅
+        const WHATSAPP_NUMBER = '+33637728856'; // Votre numéro WhatsApp
+        const PAYPAL_USERNAME = 'conciergeriedaddio'; // PayPal.me username
 
         // Current language
         let currentLanguage = 'fr';
@@ -930,6 +991,7 @@
                 subtitle: "Votre guide pour un séjour inoubliable sur la Côte d'Azur",
                 tab_wifi: "WiFi",
                 tab_breakfast: "Petit-déjeuner",
+                tab_garage: "Garage",
                 network_name: "Nom du réseau",
                 password: "Mot de passe",
                 copy_name: "Copier le nom",
@@ -937,6 +999,16 @@
                 copied: "Copié !",
                 breakfast_title: "Petit-déjeuner",
                 breakfast_subtitle: "Sélectionnez vos menus et choisissez votre horaire",
+                min_next_day: "📅 Commande minimum pour le lendemain",
+                garage_title: "Location de Garage",
+                garage_subtitle: "Stationnement sécurisé pour votre véhicule",
+                pricing_short: "Courte durée (1-2 nuits)",
+                pricing_long: "Longue durée (3+ nuits)",
+                number_nights: "Nombre de nuits",
+                start_date: "Date de début",
+                end_date: "Date de fin",
+                night: "nuit",
+                nights: "nuits",
                 your_order: "Votre commande",
                 empty_cart: "Votre panier est vide",
                 menu_continental: "Continental",
@@ -954,13 +1026,9 @@
                 delivery_time: "Heure de livraison",
                 select_time: "Sélectionnez une heure",
                 total: "Total",
-                order_now: "Commander maintenant",
-                choose_payment: "Choisissez votre mode de paiement",
-                payment_subtitle: "Comment souhaitez-vous régler ?",
-                pay_cash: "Espèces sur place",
-                pay_qr: "PayPal (Scanner QR code)",
-                order_sent_cash: "✅ Votre commande a été envoyée !\n\nVous paierez en espèces lors de la livraison.\n\nÀ très bientôt ! 🌊☀️",
-                order_sent_paypal: "✅ Votre commande a été envoyée !\n\nVeuillez scanner le QR code PayPal à côté pour payer.\n\nÀ très bientôt ! 🌊☀️",
+                pay_on_site: "💵 Payer sur place",
+                pay_paypal: "💳 PayPal",
+                order_sent: "✅ Votre commande a été envoyée avec succès!\n\nVous recevrez votre petit-déjeuner à l'heure demandée.",
                 enter_name: "Veuillez entrer votre nom",
                 select_date: "Veuillez sélectionner une date de livraison",
                 select_hour: "Veuillez sélectionner une heure de livraison"
@@ -970,6 +1038,7 @@
                 subtitle: "Your guide for an unforgettable stay on the French Riviera",
                 tab_wifi: "WiFi",
                 tab_breakfast: "Breakfast",
+                tab_garage: "Garage",
                 network_name: "Network name",
                 password: "Password",
                 copy_name: "Copy name",
@@ -977,6 +1046,16 @@
                 copied: "Copied!",
                 breakfast_title: "Breakfast",
                 breakfast_subtitle: "Select your menus and choose your time slot",
+                min_next_day: "📅 Minimum order for next day",
+                garage_title: "Garage Rental",
+                garage_subtitle: "Secure parking for your vehicle",
+                pricing_short: "Short stay (1-2 nights)",
+                pricing_long: "Long stay (3+ nights)",
+                number_nights: "Number of nights",
+                start_date: "Start date",
+                end_date: "End date",
+                night: "night",
+                nights: "nights",
                 your_order: "Your order",
                 empty_cart: "Your cart is empty",
                 menu_continental: "Continental",
@@ -994,13 +1073,9 @@
                 delivery_time: "Delivery time",
                 select_time: "Select a time",
                 total: "Total",
-                order_now: "Order now",
-                choose_payment: "Choose your payment method",
-                payment_subtitle: "How would you like to pay?",
-                pay_cash: "Cash on site",
-                pay_qr: "PayPal (Scan QR code)",
-                order_sent_cash: "✅ Your order has been sent!\n\nYou will pay in cash upon delivery.\n\nSee you soon! 🌊☀️",
-                order_sent_paypal: "✅ Your order has been sent!\n\nPlease scan the PayPal QR code nearby to pay.\n\nSee you soon! 🌊☀️",
+                pay_on_site: "💵 Pay on site",
+                pay_paypal: "💳 PayPal",
+                order_sent: "✅ Your order has been sent successfully!\n\nYou will receive your breakfast at the requested time.",
                 enter_name: "Please enter your name",
                 select_date: "Please select a delivery date",
                 select_hour: "Please select a delivery time"
@@ -1028,7 +1103,6 @@
         function switchLanguage(lang) {
             currentLanguage = lang;
             
-            // Update language buttons
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.dataset.lang === lang) {
@@ -1176,7 +1250,7 @@
                 <div class="datetime-section">
                     <div class="form-group">
                         <label class="form-label" for="deliveryDate">${translations[currentLanguage].delivery_date}</label>
-                        <input type="date" id="deliveryDate" class="form-input" min="${getTodayDate()}" required>
+                        <input type="date" id="deliveryDate" class="form-input" min="${getTomorrowDate()}" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="deliveryTime">${translations[currentLanguage].delivery_time}</label>
@@ -1194,17 +1268,35 @@
                 </div>
 
                 <div class="payment-section">
-                    <button class="order-button" onclick="showPaymentModal()">
-                        🛎️ <span data-translate="order_now">Commander maintenant</span>
-                    </button>
+                    <div class="payment-buttons">
+                        <button class="payment-button" onclick="processOrder('cash')">
+                            ${translations[currentLanguage].pay_on_site}
+                        </button>
+                        <button class="payment-button paypal" onclick="processOrder('paypal')">
+                            ${translations[currentLanguage].pay_paypal}
+                        </button>
+                    </div>
                 </div>
             `;
 
             cartContent.innerHTML = cartHTML;
         }
 
-        // Show payment modal
-        function showPaymentModal() {
+        // Get today's date in YYYY-MM-DD format
+        function getTodayDate() {
+            const today = new Date();
+            return today.toISOString().split('T')[0];
+        }
+
+        // Get tomorrow's date in YYYY-MM-DD format (for breakfast orders)
+        function getTomorrowDate() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            return tomorrow.toISOString().split('T')[0];
+        }
+
+        // Process order
+        function processOrder(paymentMethod) {
             const customerName = document.getElementById('customerName').value.trim();
             const deliveryDate = document.getElementById('deliveryDate').value;
             const deliveryTime = document.getElementById('deliveryTime').value;
@@ -1224,46 +1316,53 @@
                 return;
             }
 
-            // Show modal
-            document.getElementById('paymentModal').classList.add('show');
-        }
-
-        // Close modal
-        function closePaymentModal() {
-            document.getElementById('paymentModal').classList.remove('show');
-        }
-
-        // Close modal when clicking outside
-        document.addEventListener('click', function(event) {
-            const modal = document.getElementById('paymentModal');
-            if (event.target === modal) {
-                closePaymentModal();
-            }
-        });
-
-        // Get today's date in YYYY-MM-DD format
-        function getTodayDate() {
-            const today = new Date();
-            return today.toISOString().split('T')[0];
-        }
-
-        // Process order
-        function processOrder(paymentMethod) {
-            // Close modal
-            closePaymentModal();
-
-            const customerName = document.getElementById('customerName').value.trim();
-            const deliveryDate = document.getElementById('deliveryDate').value;
-            const deliveryTime = document.getElementById('deliveryTime').value;
-
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-            // Create order message for WhatsApp
-            let message = `🏖️ *NOUVELLE COMMANDE NICE / NEW ORDER*\n\n`;
+            if (paymentMethod === 'cash') {
+                // Paiement espèces - Envoyer directement WhatsApp
+                const message = createOrderMessage(customerName, deliveryDate, deliveryTime, total, 'cash');
+                sendWhatsAppMessage(message);
+                
+                setTimeout(() => {
+                    cart = [];
+                    renderMenuItems();
+                    updateOrderSummary();
+                    alert(translations[currentLanguage].order_sent);
+                }, 1500);
+            } else {
+                // PayPal - Sauvegarder commande et ouvrir PayPal
+                const orderData = {
+                    customerName,
+                    deliveryDate,
+                    deliveryTime,
+                    total,
+                    cart: cart.map(item => ({
+                        nameKey: item.nameKey,
+                        quantity: item.quantity,
+                        price: item.price
+                    })),
+                    language: currentLanguage
+                };
+                
+                // Sauvegarder dans localStorage
+                localStorage.setItem('pendingOrder', JSON.stringify(orderData));
+                
+                // Ouvrir PayPal directement
+                const paypalUrl = `https://www.paypal.me/${PAYPAL_USERNAME}/${total}`;
+                window.open(paypalUrl, '_blank');
+                
+                // Afficher le bouton de confirmation
+                showPaymentConfirmation();
+            }
+        }
+
+        // Create order message for WhatsApp
+        function createOrderMessage(customerName, deliveryDate, deliveryTime, total, paymentMethod) {
+            let message = `🏖️ *NOUVELLE COMMANDE NICE*\n\n`;
             message += `👤 *Client:* ${customerName}\n\n`;
             message += `📅 *Date:* ${formatDate(deliveryDate)}\n`;
-            message += `⏰ *Heure / Time:* ${deliveryTime}\n\n`;
-            message += `🍽️ *Commande / Order:*\n`;
+            message += `⏰ *Heure:* ${deliveryTime}\n\n`;
+            message += `🍽️ *Commande:*\n`;
             
             cart.forEach(item => {
                 const name = translations[currentLanguage][item.nameKey];
@@ -1271,29 +1370,125 @@
             });
 
             message += `\n💰 *Total: ${total}€*\n\n`;
+            message += `💳 *Paiement:* ${paymentMethod === 'cash' ? '💵 Sur place / On site' : '✅ PayPal (PAYÉ)'}\n\n`;
+
+            return message;
+        }
+
+        // Show payment confirmation button
+        function showPaymentConfirmation() {
+            const cartContent = document.getElementById('cartContent');
+            const pendingOrder = JSON.parse(localStorage.getItem('pendingOrder'));
             
-            if (paymentMethod === 'cash') {
-                message += `💵 *Paiement: ESPÈCES SUR PLACE / CASH ON SITE*`;
-            } else {
-                message += `💳 *Paiement: PayPal - CLIENT VA SCANNER LE QR CODE*\n`;
-                message += `⚠️ Vérifier réception paiement PayPal avant livraison`;
+            if (!pendingOrder) return;
+
+            let confirmHTML = `
+                <div style="text-align: center; padding: 30px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 127, 255, 0.1)); border-radius: 16px; border: 2px solid var(--sun-gold);">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">⏳</div>
+                    <h3 style="color: var(--azure-blue); margin-bottom: 15px; font-size: 1.5rem;">
+                        ${currentLanguage === 'fr' ? 'Paiement en cours...' : 'Payment in progress...'}
+                    </h3>
+                    <p style="color: var(--dark-blue); margin-bottom: 25px; line-height: 1.6;">
+                        ${currentLanguage === 'fr' 
+                            ? 'Avez-vous complété le paiement PayPal ?<br>Cliquez sur "Confirmer" pour finaliser votre commande.' 
+                            : 'Have you completed the PayPal payment?<br>Click "Confirm" to finalize your order.'}
+                    </p>
+                    <button onclick="confirmPayPalPayment()" style="
+                        background: linear-gradient(135deg, var(--sun-gold), var(--warm-gold));
+                        color: white;
+                        border: none;
+                        padding: 16px 40px;
+                        font-size: 1.1rem;
+                        font-weight: 700;
+                        border-radius: 12px;
+                        cursor: pointer;
+                        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+                        font-family: 'Poppins', sans-serif;
+                        text-transform: uppercase;
+                        margin-right: 10px;
+                    ">
+                        ✅ ${currentLanguage === 'fr' ? 'Confirmer le paiement' : 'Confirm payment'}
+                    </button>
+                    <button onclick="cancelPayPalPayment()" style="
+                        background: white;
+                        color: var(--pebble-gray);
+                        border: 2px solid var(--pebble-gray);
+                        padding: 16px 40px;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        border-radius: 12px;
+                        cursor: pointer;
+                        font-family: 'Poppins', sans-serif;
+                    ">
+                        ${currentLanguage === 'fr' ? 'Annuler' : 'Cancel'}
+                    </button>
+                </div>
+            `;
+            
+            cartContent.innerHTML = confirmHTML;
+        }
+
+        // Confirm PayPal payment
+        function confirmPayPalPayment() {
+            const pendingOrder = JSON.parse(localStorage.getItem('pendingOrder'));
+            
+            if (!pendingOrder) {
+                alert(currentLanguage === 'fr' ? 'Aucune commande en attente' : 'No pending order');
+                return;
             }
 
-            // Send WhatsApp message
+            // Restaurer le panier temporairement pour créer le message
+            cart = pendingOrder.cart;
+            
+            // Créer et envoyer le message WhatsApp
+            const message = createOrderMessage(
+                pendingOrder.customerName,
+                pendingOrder.deliveryDate,
+                pendingOrder.deliveryTime,
+                pendingOrder.total,
+                'paypal'
+            );
+            
             sendWhatsAppMessage(message);
+            
+            // Nettoyer
+            localStorage.removeItem('pendingOrder');
+            cart = [];
+            renderMenuItems();
+            updateOrderSummary();
+            
+            alert(currentLanguage === 'fr' 
+                ? '✅ Votre commande a été confirmée!\n\nVous recevrez votre petit-déjeuner à l\'heure demandée.' 
+                : '✅ Your order has been confirmed!\n\nYou will receive your breakfast at the requested time.');
+        }
 
-            // Show confirmation message
-            const confirmMessage = paymentMethod === 'cash' 
-                ? translations[currentLanguage].order_sent_cash 
-                : translations[currentLanguage].order_sent_paypal;
-
-            setTimeout(() => {
+        // Cancel PayPal payment
+        function cancelPayPalPayment() {
+            const confirmCancel = confirm(currentLanguage === 'fr'
+                ? 'Êtes-vous sûr de vouloir annuler cette commande ?'
+                : 'Are you sure you want to cancel this order?');
+            
+            if (confirmCancel) {
+                localStorage.removeItem('pendingOrder');
                 cart = [];
                 renderMenuItems();
                 updateOrderSummary();
-                alert(confirmMessage);
-            }, 1000);
+            }
         }
+
+        // Check for pending order on page load
+        window.addEventListener('load', function() {
+            const pendingOrder = localStorage.getItem('pendingOrder');
+            if (pendingOrder) {
+                // Afficher l'onglet breakfast
+                document.querySelector('[data-tab="breakfast"]').click();
+                
+                // Afficher la confirmation
+                setTimeout(() => {
+                    showPaymentConfirmation();
+                }, 500);
+            }
+        });
 
         // Send WhatsApp message
         function sendWhatsAppMessage(message) {
@@ -1333,6 +1528,194 @@
             setTimeout(() => {
                 feedback.classList.remove('show');
             }, 2000);
+        }
+
+        // ========== GARAGE FUNCTIONS ==========
+
+        // Initialize garage on load
+        window.addEventListener('DOMContentLoaded', function() {
+            // Initialize garage price display
+            calculateGaragePrice();
+
+            // Check for pending garage order
+            const pendingGarageOrder = localStorage.getItem('pendingGarageOrder');
+            if (pendingGarageOrder) {
+                document.querySelector('[data-tab="garage"]').click();
+                setTimeout(() => {
+                    showGaragePaymentConfirmation();
+                }, 500);
+            }
+        });
+
+        // Update garage nights
+        function updateGarageNights(change) {
+            const input = document.getElementById('garageNights');
+            let value = parseInt(input.value) || 1;
+            value += change;
+            
+            if (value < 1) value = 1;
+            if (value > 30) value = 30;
+            
+            input.value = value;
+            calculateGaragePrice();
+        }
+
+        // Calculate garage price
+        function calculateGaragePrice() {
+            const nightsInput = document.getElementById('garageNights');
+            if (!nightsInput) return;
+
+            const nights = parseInt(nightsInput.value) || 1;
+            const pricePerNight = nights >= 3 ? 10 : 15;
+            const total = nights * pricePerNight;
+
+            // Update display
+            const pricePerNightEl = document.getElementById('pricePerNight');
+            const totalEl = document.getElementById('garageTotal');
+            
+            if (pricePerNightEl) pricePerNightEl.textContent = `${pricePerNight} €`;
+            if (totalEl) totalEl.textContent = `${total} €`;
+            
+            // Update nights text
+            const nightsTextEl = document.getElementById('nightsText');
+            if (nightsTextEl) {
+                const nightWord = currentLanguage === 'fr' 
+                    ? (nights === 1 ? 'nuit' : 'nuits')
+                    : (nights === 1 ? 'night' : 'nights');
+                nightsTextEl.innerHTML = `${nights} <span data-translate="${nights === 1 ? 'night' : 'nights'}">${nightWord}</span>`;
+            }
+        }
+
+        // Process garage payment
+        function processGaragePayment() {
+            const customerName = document.getElementById('garageName').value.trim();
+            const nights = parseInt(document.getElementById('garageNights').value) || 1;
+
+            if (!customerName) {
+                alert(translations[currentLanguage].enter_name);
+                return;
+            }
+
+            const pricePerNight = nights >= 3 ? 10 : 15;
+            const total = nights * pricePerNight;
+
+            // Save garage order
+            const garageOrder = {
+                type: 'garage',
+                customerName,
+                nights,
+                pricePerNight,
+                total,
+                language: currentLanguage
+            };
+
+            localStorage.setItem('pendingGarageOrder', JSON.stringify(garageOrder));
+
+            // Open PayPal
+            const paypalUrl = `https://www.paypal.me/${PAYPAL_USERNAME}/${total}`;
+            window.open(paypalUrl, '_blank');
+
+            // Show confirmation
+            showGaragePaymentConfirmation();
+        }
+
+        // Show garage payment confirmation
+        function showGaragePaymentConfirmation() {
+            const garageBooking = document.querySelector('.garage-booking');
+            const pendingOrder = JSON.parse(localStorage.getItem('pendingGarageOrder'));
+            
+            if (!garageBooking || !pendingOrder) return;
+
+            let confirmHTML = `
+                <div style="text-align: center; padding: 30px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 127, 255, 0.1)); border-radius: 16px; border: 2px solid var(--sun-gold);">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">⏳</div>
+                    <h3 style="color: var(--azure-blue); margin-bottom: 15px; font-size: 1.5rem;">
+                        ${currentLanguage === 'fr' ? 'Paiement en cours...' : 'Payment in progress...'}
+                    </h3>
+                    <p style="color: var(--dark-blue); margin-bottom: 25px; line-height: 1.6;">
+                        ${currentLanguage === 'fr' 
+                            ? 'Avez-vous complété le paiement PayPal ?<br>Cliquez sur "Confirmer" pour finaliser votre réservation.' 
+                            : 'Have you completed the PayPal payment?<br>Click "Confirm" to finalize your booking.'}
+                    </p>
+                    <button onclick="confirmGaragePayment()" style="
+                        background: linear-gradient(135deg, var(--sun-gold), var(--warm-gold));
+                        color: white;
+                        border: none;
+                        padding: 16px 40px;
+                        font-size: 1.1rem;
+                        font-weight: 700;
+                        border-radius: 12px;
+                        cursor: pointer;
+                        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+                        font-family: 'Poppins', sans-serif;
+                        text-transform: uppercase;
+                        margin-right: 10px;
+                    ">
+                        ✅ ${currentLanguage === 'fr' ? 'Confirmer le paiement' : 'Confirm payment'}
+                    </button>
+                    <button onclick="cancelGaragePayment()" style="
+                        background: white;
+                        color: var(--pebble-gray);
+                        border: 2px solid var(--pebble-gray);
+                        padding: 16px 40px;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        border-radius: 12px;
+                        cursor: pointer;
+                        font-family: 'Poppins', sans-serif;
+                    ">
+                        ${currentLanguage === 'fr' ? 'Annuler' : 'Cancel'}
+                    </button>
+                </div>
+            `;
+            
+            garageBooking.innerHTML = confirmHTML;
+        }
+
+        // Confirm garage payment
+        function confirmGaragePayment() {
+            const pendingOrder = JSON.parse(localStorage.getItem('pendingGarageOrder'));
+            
+            if (!pendingOrder) {
+                alert(currentLanguage === 'fr' ? 'Aucune réservation en attente' : 'No pending booking');
+                return;
+            }
+
+            // Create WhatsApp message
+            const nightWord = currentLanguage === 'fr'
+                ? (pendingOrder.nights === 1 ? 'nuit' : 'nuits')
+                : (pendingOrder.nights === 1 ? 'night' : 'nights');
+
+            let message = `🚗 *NOUVELLE RÉSERVATION GARAGE / NEW GARAGE BOOKING*\n\n`;
+            message += `👤 *Client:* ${pendingOrder.customerName}\n\n`;
+            message += `🌙 *Durée / Duration:* ${pendingOrder.nights} ${nightWord}\n`;
+            message += `💶 *Tarif / Rate:* ${pendingOrder.pricePerNight} € / ${nightWord === 'nuit' ? 'nuit' : 'night'}\n\n`;
+            message += `💰 *Total: ${pendingOrder.total} €*\n\n`;
+            message += `💳 *Paiement: ✅ PayPal (PAYÉ / PAID)*`;
+
+            sendWhatsAppMessage(message);
+
+            // Clean up
+            localStorage.removeItem('pendingGarageOrder');
+            
+            alert(currentLanguage === 'fr'
+                ? '✅ Votre réservation a été confirmée!\n\nVous recevrez les instructions d\'accès au garage par email.'
+                : '✅ Your booking has been confirmed!\n\nYou will receive garage access instructions by email.');
+            
+            // Reset form
+            location.reload();
+        }
+
+        // Cancel garage payment
+        function cancelGaragePayment() {
+            const confirmCancel = confirm(currentLanguage === 'fr'
+                ? 'Êtes-vous sûr de vouloir annuler cette réservation ?'
+                : 'Are you sure you want to cancel this booking?');
+            
+            if (confirmCancel) {
+                localStorage.removeItem('pendingGarageOrder');
+                location.reload();
+            }
         }
     </script>
 </body>
